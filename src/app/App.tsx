@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router";
 import { router } from "./routes";
 import { useEffect } from "react";
-import { applySavedTheme } from "./components/screens/SettingsTheme";
+import { applySavedTheme } from "./lib/theme-utils";
 
 export default function App() {
   useEffect(() => {

@@ -1,37 +1,103 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { Lock, Mail, Sparkles } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import { GlowCard } from "../GlowCard";
+
+import logoPink from "../../../assets/logo-pink.png";
+import logoPurple from "../../../assets/logo-purple.png";
+import logoBlue from "../../../assets/logo-blue.png";
+import logoGreen from "../../../assets/logo-green.png";
+import logoOrange from "../../../assets/logo-orange.png";
+import logoRed from "../../../assets/logo-red.png";
+import logoAqua from "../../../assets/logo-aqua.png";
+import logoIndigo from "../../../assets/logo-indigo.png";
+
+type ThemeId =
+  | "pink-magenta"
+  | "purple-violet"
+  | "blue-cyan"
+  | "emerald-green"
+  | "orange-amber"
+  | "rose-red"
+  | "teal-aqua"
+  | "indigo-blue";
+
+const THEME_STORAGE_KEY = "app-theme";
+
+const logoMap: Record<ThemeId, string> = {
+  "pink-magenta": logoPink,
+  "purple-violet": logoPurple,
+  "blue-cyan": logoBlue,
+  "emerald-green": logoGreen,
+  "orange-amber": logoOrange,
+  "rose-red": logoRed,
+  "teal-aqua": logoAqua,
+  "indigo-blue": logoIndigo,
+};
 
 export function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [themeId, setThemeId] = useState<ThemeId>("pink-magenta");
 
-const handleLogin = (e: React.FormEvent) => {
-  e.preventDefault();
+  useEffect(() => {
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
 
-  // mock login
-sessionStorage.setItem("isLoggedIn", "true");
-sessionStorage.setItem("user", JSON.stringify({ email }));
+    if (
+      savedTheme === "pink-magenta" ||
+      savedTheme === "purple-violet" ||
+      savedTheme === "blue-cyan" ||
+      savedTheme === "emerald-green" ||
+      savedTheme === "orange-amber" ||
+      savedTheme === "rose-red" ||
+      savedTheme === "teal-aqua" ||
+      savedTheme === "indigo-blue"
+    ) {
+      setThemeId(savedTheme);
+    } else {
+      setThemeId("pink-magenta");
+    }
+  }, []);
 
-  navigate("/");
-};
+  const currentLogo = useMemo(() => {
+    return logoMap[themeId] || logoPink;
+  }, [themeId]);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    sessionStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("user", JSON.stringify({ email }));
+
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen flex items-start justify-center px-4 pt-16 bg-gradient-to-b from-background via-background to-primary/5">
       <div className="w-full max-w-md space-y-6">
-        {/* Logo and Title */}
-        <div className="text-center ">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary to-secondary glow-pink-sm mb-4 ">
-            <Sparkles className="w-10 h-10 text-white" />
-          </div>
-          <h1 className="text-3xl mb-2 text-glow-pink">Cashflow Copilot</h1>
+        <div className="text-center">
+          <div className="flex justify-center mb-2">
+  <div className="relative w-32 h-32 flex items-center justify-center">
+    {/* glow layer ด้านหลัง */}
+    <div className="absolute inset-0 rounded-full bg-primary/20 blur-3xl scale-110 animate-pulse" />
+    <div className="absolute inset-4 rounded-full bg-primary/25 blur-2xl" />
+
+    {/* logo */}
+    <img
+      src={currentLogo}
+      alt="Cashflow Copilot Logo"
+      draggable={false}
+      className="relative z-10 w-35 h-35 object-contain drop-shadow-[0_0_28px_var(--glow-pink)] animate-[float_3.2s_ease-in-out_infinite]"
+    />
+  </div>
+</div>
+
+          <h1 className="text-3xl mb-2 text-primary">FlowCast</h1>
           <p className="text-muted-foreground">AI CFO Assistant สำหรับธุรกิจของคุณ</p>
         </div>
 
-        {/* Login Form */}
-        <GlowCard className="p-8 border-primary/20 glow-pink-sm">
+        <GlowCard className="p-8 border-primary/20">
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <label className="block text-sm mb-2">อีเมล</label>
@@ -65,7 +131,7 @@ sessionStorage.setItem("user", JSON.stringify({ email }));
 
             <button
               type="submit"
-              className="w-full py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-xl hover:shadow-lg hover:shadow-primary/50 transition-all glow-pink-sm"
+              className="w-full py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-xl hover:shadow-lg hover:shadow-primary/50 transition-all"
             >
               เข้าสู่ระบบ
             </button>
@@ -80,9 +146,7 @@ sessionStorage.setItem("user", JSON.stringify({ email }));
             </button>
 
             <div className="pt-4 border-t border-muted/30">
-              <p className="text-sm text-muted-foreground mb-3">
-                ยังไม่มีบัญชี?
-              </p>
+              <p className="text-sm text-muted-foreground mb-3">ยังไม่มีบัญชี?</p>
               <button
                 onClick={() => navigate("/signup")}
                 className="w-full py-3 border border-primary/30 text-primary rounded-xl hover:bg-primary/10 transition-all"
@@ -90,16 +154,13 @@ sessionStorage.setItem("user", JSON.stringify({ email }));
                 สมัครสมาชิก
               </button>
             </div>
+
             <div className="pt-4 border-t border-muted/30">
-            <p className="text-sm text-muted-foreground mb-3">
-                Demo Account
-              </p>
+              <p className="text-sm text-muted-foreground mb-3">Demo Account</p>
               <p className="text-sm text-muted-foreground mb-3">
                 Email: demo@cashflow.com
               </p>
-              <p className="text-sm text-muted-foreground">
-                รหัสผ่าน: demo1234
-              </p>
+              <p className="text-sm text-muted-foreground">รหัสผ่าน: demo1234</p>
             </div>
           </div>
         </GlowCard>

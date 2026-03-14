@@ -14,7 +14,7 @@ import { GlowCard } from "../GlowCard";
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { UserGuideModal } from "../UserGuideModal";
-import { applySavedTheme } from "./SettingsTheme";
+import { applySavedTheme } from "../../lib/theme-utils";
 
 const settingsSections = [
   {

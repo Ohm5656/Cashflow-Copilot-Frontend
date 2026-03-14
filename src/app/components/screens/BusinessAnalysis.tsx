@@ -118,7 +118,7 @@ export function BusinessAnalysis() {
 
       {/* App Title */}
       <div className="text-center mb-4">
-        <h1 className="text-2xl mb-2 text-glow-pink">Cashflow Copilot</h1>
+        <h1 className="text-2xl mb-2 text-glow-pink">FlowCast</h1>
         <p className="text-sm text-muted-foreground">AI CFO Assistant สำหรับธุรกิจของคุณ</p>
       </div>
 
