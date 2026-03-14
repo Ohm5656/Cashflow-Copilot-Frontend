@@ -11,11 +11,11 @@ import {
 import { AIChat } from "./screens/AIChat";
 
 const navItems = [
-  { path: "/", label: "วิเคราะห์", icon: BarChart3 },
-  { path: "/suppliers", label: "ซัพพลาย", icon: Package },
-  { path: "/cash-runway", label: "เงินสด", icon: Wallet },
-  { path: "/simulator", label: "ทดลอง", icon: Activity },
-  { path: "/settings", label: "ตั้งค่า", icon: SettingsIcon },
+  { path: "/", label: "วิเคราะห์", icon: BarChart3, tourAttr: "" },
+  { path: "/suppliers", label: "ซัพพลาย", icon: Package, tourAttr: "nav-suppliers" },
+  { path: "/cash-runway", label: "เงินสด", icon: Wallet, tourAttr: "" },
+  { path: "/simulator", label: "ทดลอง", icon: Activity, tourAttr: "" },
+  { path: "/settings", label: "ตั้งค่า", icon: SettingsIcon, tourAttr: "nav-settings" },
 ];
 
 export function Layout() {
@@ -48,6 +48,7 @@ export function Layout() {
               <Link
                 key={item.path}
                 to={item.path}
+                data-tour={item.tourAttr || undefined}
                 className={`flex flex-col items-center justify-center gap-1 px-3 py-2 transition-all min-w-[60px] ${
                   active ? "text-primary" : "text-muted-foreground"
                 }`}

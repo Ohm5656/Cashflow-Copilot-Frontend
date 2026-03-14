@@ -1,5 +1,5 @@
 import { Navigate } from "react-router";
-import type { ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface ProtectedRouteProps {
   children: ReactNode;

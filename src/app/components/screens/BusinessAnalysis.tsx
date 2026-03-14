@@ -11,6 +11,7 @@ import {
 import { GlowCard } from "../GlowCard";
 import { useNavigate } from "react-router";
 import { UserGuideModal } from "../UserGuideModal";
+import { ProductTour } from "../ProductTour";
 import {
   LineChart,
   Line,
@@ -89,17 +90,32 @@ export function BusinessAnalysis() {
   const navigate = useNavigate();
   const riskScore = 68;
   const [showGuide, setShowGuide] = useState(false);
+  const [showTour, setShowTour] = useState(false);
 
   useEffect(() => {
-    const isFirstLogin = localStorage.getItem("isFirstLogin") === "true";
+    const isFirstLogin = sessionStorage.getItem("isFirstLogin") === "true";
 
     if (isFirstLogin) {
-      setShowGuide(true);
-      localStorage.removeItem("isFirstLogin");
+      // Show product tour for first-time users
+      setTimeout(() => {
+        setShowTour(true);
+        sessionStorage.removeItem("isFirstLogin");
+      }, 500);
     }
   }, []);
+
+  const handleTourComplete = () => {
+    setShowTour(false);
+  };
+
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
+      {/* Product Tour */}
+      {showTour && <ProductTour onComplete={handleTourComplete} />}
+
+      {/* User Guide Modal */}
+      {showGuide && <UserGuideModal onClose={() => setShowGuide(false)} />}
+
       {/* App Title */}
       <div className="text-center mb-4">
         <h1 className="text-2xl mb-2 text-glow-pink">Cashflow Copilot</h1>
@@ -107,7 +123,10 @@ export function BusinessAnalysis() {
       </div>
 
       {/* SECTION 1 — AI Risk Score Card - Centered */}
-      <GlowCard className="bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20 glow-pink-sm p-8">
+      <GlowCard 
+        data-tour="risk-score"
+        className="bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20 glow-pink-sm p-8"
+      >
         <div className="flex flex-col items-center">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center glow-pink-sm">
@@ -156,7 +175,7 @@ export function BusinessAnalysis() {
       </div>
 
       {/* SECTION 2 — ข้อมูลเชิงลึก */}
-      <div className="space-y-3">
+      <div className="space-y-3" data-tour="material-cards">
         <h3 className="text-center mb-4">🤖 ข้อมูลเชิงลึก</h3>
         
         {/* Card 1 — สุขภาพทางการเงิน */}
@@ -228,7 +247,10 @@ export function BusinessAnalysis() {
           </GlowCard>
         </div>
 
-        <GlowCard className="p-5 bg-card/50 border-primary/20">
+        <GlowCard 
+          data-tour="profit-chart"
+          className="p-5 bg-card/50 border-primary/20"
+        >
           <ResponsiveContainer width="100%" height={320}>
             <LineChart data={financialData}>
               <defs>

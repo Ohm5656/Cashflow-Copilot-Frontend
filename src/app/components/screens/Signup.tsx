@@ -9,6 +9,8 @@ import {
   Mail,
   Lock,
   FileText,
+  Palette,
+  Check,
 } from "lucide-react";
 import { GlowCard } from "../GlowCard";
 
@@ -18,6 +20,38 @@ interface Material {
   avgPrice: string;
   frequency: string;
 }
+
+const themeOptions = [
+  {
+    id: "pink-magenta",
+    name: "Pink & Magenta",
+    primary: "#ff3d9a",
+    secondary: "#9d4edd",
+    gradient: "from-pink-500 to-fuchsia-500",
+    default: true,
+  },
+  {
+    id: "purple-violet",
+    name: "Purple & Violet",
+    primary: "#a855f7",
+    secondary: "#7c3aed",
+    gradient: "from-purple-500 to-violet-600",
+  },
+  {
+    id: "blue-cyan",
+    name: "Blue & Cyan",
+    primary: "#3b82f6",
+    secondary: "#06b6d4",
+    gradient: "from-blue-500 to-cyan-500",
+  },
+  {
+    id: "emerald-green",
+    name: "Emerald & Green",
+    primary: "#10b981",
+    secondary: "#059669",
+    gradient: "from-emerald-500 to-green-600",
+  },
+];
 
 export function Signup() {
   const navigate = useNavigate();
@@ -41,6 +75,9 @@ export function Signup() {
     { name: "", supplier: "", avgPrice: "", frequency: "" },
   ]);
 
+  // Step 5 - Theme
+  const [selectedTheme, setSelectedTheme] = useState("pink-magenta");
+
   const passwordsMatch =
     password.length > 0 &&
     confirmPassword.length > 0 &&
@@ -49,12 +86,12 @@ export function Signup() {
   const handleNext = () => {
     if (!canProceed()) return;
 
-    if (step < 4) {
+    if (step < 5) {
       setStep(step + 1);
       return;
     }
 
-    // Complete signup
+    // Complete signup and save theme
     const signupData = {
       email,
       companyName,
@@ -62,12 +99,14 @@ export function Signup() {
       registrationNumber,
       currentCash,
       materials,
+      theme: selectedTheme,
     };
 
-sessionStorage.setItem("isLoggedIn", "true");
-sessionStorage.setItem("isFirstLogin", "true");
-sessionStorage.setItem("user", JSON.stringify(signupData));
-navigate("/");
+    localStorage.setItem("app-theme", selectedTheme);
+    sessionStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("isFirstLogin", "true");
+    sessionStorage.setItem("user", JSON.stringify(signupData));
+    navigate("/");
   };
 
   const handleBack = () => {
@@ -131,6 +170,10 @@ navigate("/");
       );
     }
 
+    if (step === 5) {
+      return true; // Theme is always selected (has default)
+    }
+
     return false;
   };
 
@@ -150,7 +193,7 @@ navigate("/");
 
         {/* Progress Indicator */}
         <div className="flex items-center justify-center gap-2">
-          {[1, 2, 3, 4].map((s) => (
+          {[1, 2, 3, 4, 5].map((s) => (
             <div
               key={s}
               className={`h-2 rounded-full transition-all ${
@@ -175,7 +218,7 @@ navigate("/");
                 </div>
                 <div>
                   <h2 className="text-lg">ข้อมูลบัญชี</h2>
-                  <p className="text-xs text-muted-foreground">Step 1 of 4</p>
+                  <p className="text-xs text-muted-foreground">Step 1 of 5</p>
                 </div>
               </div>
 
@@ -247,7 +290,7 @@ navigate("/");
                 </div>
                 <div>
                   <h2 className="text-lg">ข้อมูลธุรกิจ</h2>
-                  <p className="text-xs text-muted-foreground">Step 2 of 4</p>
+                  <p className="text-xs text-muted-foreground">Step 2 of 5</p>
                 </div>
               </div>
 
@@ -306,7 +349,7 @@ navigate("/");
                 </div>
                 <div>
                   <h2 className="text-lg">เงินสดปัจจุบัน</h2>
-                  <p className="text-xs text-muted-foreground">Step 3 of 4</p>
+                  <p className="text-xs text-muted-foreground">Step 3 of 5</p>
                 </div>
               </div>
 
@@ -340,7 +383,7 @@ navigate("/");
                 </div>
                 <div>
                   <h2 className="text-lg">วัตถุดิบหลัก</h2>
-                  <p className="text-xs text-muted-foreground">Step 4 of 4</p>
+                  <p className="text-xs text-muted-foreground">Step 4 of 5</p>
                 </div>
               </div>
 
@@ -423,6 +466,54 @@ navigate("/");
             </div>
           )}
 
+          {/* Step 5 - Theme */}
+          {step === 5 && (
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                  <Palette className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-lg">เลือกธีมสีโปรด</h2>
+                  <p className="text-xs text-muted-foreground">Step 5 of 5</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                {themeOptions.map((theme) => {
+                  const isSelected = selectedTheme === theme.id;
+                  return (
+                    <button
+                      key={theme.id}
+                      onClick={() => setSelectedTheme(theme.id)}
+                      className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                        isSelected
+                          ? "border-primary glow-pink-sm scale-105"
+                          : "border-muted/30 hover:border-muted/50"
+                      }`}
+                    >
+                      <div
+                        className={`w-full h-12 rounded-lg bg-gradient-to-br ${theme.gradient} glow-pink-sm mb-3`}
+                      />
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs font-medium">{theme.name}</p>
+                        {isSelected && (
+                          <Check className="w-4 h-4 text-primary" />
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="bg-primary/5 border border-primary/10 rounded-xl p-4">
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  ✨ เลือกธีมสีที่คุณชอบ! คุณสามารถเปลี่ยนธีมได้ทุกเมื่อที่หน้าตั้งค่า
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Navigation Buttons */}
           <div className="flex gap-3 mt-8">
             <button
@@ -436,7 +527,7 @@ navigate("/");
               disabled={!canProceed()}
               className="flex-1 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-xl hover:shadow-lg hover:shadow-primary/50 transition-all glow-pink-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {step === 4 ? "เสร็จสิ้น" : "ถัดไป"}
+              {step === 5 ? "เสร็จสิ้น" : "ถัดไป"}
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

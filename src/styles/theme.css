@@ -197,6 +197,10 @@
     box-shadow: 0 0 10px var(--glow-pink);
   }
   
+  .glow-pink-md {
+    box-shadow: 0 0 15px var(--glow-pink), 0 0 30px var(--glow-pink);
+  }
+  
   .glow-purple {
     box-shadow: 0 0 20px var(--glow-purple);
   }

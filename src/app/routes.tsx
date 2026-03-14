@@ -9,6 +9,7 @@ import { Settings } from "./components/screens/Settings";
 import { SettingsAccount } from "./components/screens/SettingsAccount";
 import { SettingsInventory } from "./components/screens/SettingsInventory";
 import { SettingsImport } from "./components/screens/SettingsImport";
+import { SettingsTheme } from "./components/screens/SettingsTheme";
 import { Login } from "./components/screens/Login";
 import { Signup } from "./components/screens/Signup";
 import { ForgotPassword } from "./components/screens/ForgotPassword";
@@ -28,13 +29,13 @@ export const router = createBrowserRouter([
     path: "/forgot-password",
     element: <ForgotPassword />,
   },
-    {
-  path: "/",
-  element: (
-    <ProtectedRoute>
-      <Layout />
-    </ProtectedRoute>
-  ),
+  {
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       { index: true, element: <BusinessAnalysis /> },
       { path: "suppliers", element: <Suppliers /> },
@@ -45,6 +46,7 @@ export const router = createBrowserRouter([
       { path: "settings/account", element: <SettingsAccount /> },
       { path: "settings/inventory", element: <SettingsInventory /> },
       { path: "settings/import", element: <SettingsImport /> },
+      { path: "settings/theme", element: <SettingsTheme /> },
       { path: "*", element: <NotFound /> },
     ],
   },

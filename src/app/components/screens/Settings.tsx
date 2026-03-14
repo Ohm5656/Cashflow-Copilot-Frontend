@@ -8,11 +8,13 @@ import {
   DollarSign,
   Globe,
   LogOut,
+  Palette,
 } from "lucide-react";
 import { GlowCard } from "../GlowCard";
 import { Link, useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserGuideModal } from "../UserGuideModal";
+import { applySavedTheme } from "./SettingsTheme";
 
 const settingsSections = [
   {
@@ -36,6 +38,13 @@ const settingsSections = [
     path: "/settings/import",
     color: "from-blue-500 to-cyan-500",
   },
+  {
+    icon: Palette,
+    title: "ธีมสีแอป",
+    description: "เลือกโทนสีหลักของแอปตามสไตล์ที่คุณชอบ",
+    path: "/settings/theme",
+    color: "from-fuchsia-500 to-violet-500",
+  },
 ];
 
 const accountInfo = {
@@ -48,6 +57,10 @@ const accountInfo = {
 export function Settings() {
   const [showGuide, setShowGuide] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    applySavedTheme();
+  }, []);
 
   const handleLogout = () => {
     sessionStorage.removeItem("isLoggedIn");
@@ -69,14 +82,17 @@ export function Settings() {
           <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0 glow-pink-sm">
             <Building2 className="w-7 h-7 text-white" />
           </div>
+
           <div className="flex-1">
             <h3 className="mb-1 text-glow-pink">{accountInfo.companyName}</h3>
             <p className="text-sm text-muted-foreground mb-2">{accountInfo.businessType}</p>
-            <div className="flex items-center gap-4 text-sm">
+
+            <div className="flex items-center gap-4 text-sm flex-wrap">
               <div className="flex items-center gap-2">
                 <DollarSign className="w-4 h-4 text-primary" />
                 <span>{accountInfo.currentCash}</span>
               </div>
+
               <div className="flex items-center gap-2">
                 <Globe className="w-4 h-4 text-primary" />
                 <span>{accountInfo.currency}</span>
@@ -89,6 +105,7 @@ export function Settings() {
       <div className="space-y-3">
         {settingsSections.map((section) => {
           const Icon = section.icon;
+
           return (
             <Link key={section.path} to={section.path}>
               <GlowCard className="p-5 hover:glow-pink-sm transition-all cursor-pointer group">
@@ -98,10 +115,12 @@ export function Settings() {
                   >
                     <Icon className="w-6 h-6 text-white" />
                   </div>
+
                   <div className="flex-1">
                     <h3 className="mb-1">{section.title}</h3>
                     <p className="text-sm text-muted-foreground">{section.description}</p>
                   </div>
+
                   <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
               </GlowCard>
@@ -115,10 +134,12 @@ export function Settings() {
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center flex-shrink-0 glow-pink-sm group-hover:scale-110 transition-transform">
                 <BookOpen className="w-6 h-6 text-white" />
               </div>
+
               <div className="flex-1 text-left">
                 <h3 className="mb-1">คู่มือการใช้งาน</h3>
                 <p className="text-sm text-muted-foreground">วิธีใช้งานแอปและคำถามที่พบบ่อย</p>
               </div>
+
               <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
             </div>
           </GlowCard>
@@ -128,6 +149,7 @@ export function Settings() {
       <div className="text-center pt-4 pb-24">
         <p className="text-sm text-muted-foreground mb-1">Cashflow Copilot AI</p>
         <p className="text-xs text-muted-foreground mb-3">Version 1.0.0</p>
+
         <button
           onClick={handleLogout}
           className="text-sm text-red-400 hover:text-red-300 transition-colors flex items-center gap-2 mx-auto"
