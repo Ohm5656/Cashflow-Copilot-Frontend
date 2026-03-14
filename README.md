@@ -7,13 +7,15 @@ Cashflow Copilot AI is a modern fintech dashboard designed to help small and med
 
 The platform acts like an **AI CFO assistant**, helping entrepreneurs visualize their financial situation and make better decisions about revenue, expenses, and survival runway.
 
+---
 
-🛠 Tech Stack
+## 🛠 Tech Stack
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-0EA5E9?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
+---
 ## ✨ Features
 
 ### 📊 Financial Health Dashboard
@@ -73,19 +75,5 @@ Cashflow Copilot AI helps founders answer critical questions like:
 
 ---
 
-## 🛠 Tech Stack
-
-### Frontend
-
-- **Next.js**
-- **React**
-- **TypeScript**
-- **TailwindCSS**
-- **Recharts** (financial charts)
-- **Lucide Icons**
-- **Framer Motion** (animations)
-
-
----
 
 
