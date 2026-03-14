@@ -8,18 +8,22 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Mock login - in real app, this would authenticate with backend
-    navigate("/");
-  };
+const handleLogin = (e: React.FormEvent) => {
+  e.preventDefault();
+
+  // mock login
+sessionStorage.setItem("isLoggedIn", "true");
+sessionStorage.setItem("user", JSON.stringify({ email }));
+
+  navigate("/");
+};
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-b from-background via-background to-primary/5">
-      <div className="w-full max-w-md space-y-8">
+    <div className="min-h-screen flex items-start justify-center px-4 pt-16 bg-gradient-to-b from-background via-background to-primary/5">
+      <div className="w-full max-w-md space-y-6">
         {/* Logo and Title */}
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary to-secondary glow-pink-sm mb-4">
+        <div className="text-center ">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary to-secondary glow-pink-sm mb-4 ">
             <Sparkles className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-3xl mb-2 text-glow-pink">Cashflow Copilot</h1>
@@ -85,6 +89,17 @@ export function Login() {
               >
                 สมัครสมาชิก
               </button>
+            </div>
+            <div className="pt-4 border-t border-muted/30">
+            <p className="text-sm text-muted-foreground mb-3">
+                Demo Account
+              </p>
+              <p className="text-sm text-muted-foreground mb-3">
+                Email: demo@cashflow.com
+              </p>
+              <p className="text-sm text-muted-foreground">
+                รหัสผ่าน: demo1234
+              </p>
             </div>
           </div>
         </GlowCard>

@@ -1,6 +1,16 @@
-import { Sparkles, TrendingUp, AlertCircle, Package2, BarChart3, Zap, DollarSign, ShoppingCart, ChevronRight, TrendingDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Sparkles,
+  TrendingUp,
+  AlertCircle,
+  Package2,
+  Zap,
+  DollarSign,
+  ShoppingCart,
+} from "lucide-react";
 import { GlowCard } from "../GlowCard";
 import { useNavigate } from "react-router";
+import { UserGuideModal } from "../UserGuideModal";
 import {
   LineChart,
   Line,
@@ -77,11 +87,17 @@ const financialData = [
 
 export function BusinessAnalysis() {
   const navigate = useNavigate();
-  const riskScore = 68; // AI-calculated risk score
-  console.log("financialData =", financialData);
-console.log("revenue =", financialData.map((d) => d.revenue));
-console.log("expenses =", financialData.map((d) => d.expenses));
-console.log("netProfit =", financialData.map((d) => d.netProfit));
+  const riskScore = 68;
+  const [showGuide, setShowGuide] = useState(false);
+
+  useEffect(() => {
+    const isFirstLogin = localStorage.getItem("isFirstLogin") === "true";
+
+    if (isFirstLogin) {
+      setShowGuide(true);
+      localStorage.removeItem("isFirstLogin");
+    }
+  }, []);
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* App Title */}

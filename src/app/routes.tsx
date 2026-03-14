@@ -13,6 +13,7 @@ import { Login } from "./components/screens/Login";
 import { Signup } from "./components/screens/Signup";
 import { ForgotPassword } from "./components/screens/ForgotPassword";
 import { NotFound } from "./components/screens/NotFound";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -27,9 +28,13 @@ export const router = createBrowserRouter([
     path: "/forgot-password",
     element: <ForgotPassword />,
   },
-  {
-    path: "/",
-    element: <Layout />,
+    {
+  path: "/",
+  element: (
+    <ProtectedRoute>
+      <Layout />
+    </ProtectedRoute>
+  ),
     children: [
       { index: true, element: <BusinessAnalysis /> },
       { path: "suppliers", element: <Suppliers /> },

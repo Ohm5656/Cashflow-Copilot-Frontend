@@ -10,12 +10,12 @@ interface Material {
 }
 
 const materials: Material[] = [
-  { id: "material-a", name: "วัตถุดิบ A", currentPrice: 120, change: 8.0 },
-  { id: "material-b", name: "วัตถุดิบ B", currentPrice: 95, change: -3.0 },
-  { id: "material-c", name: "วัตถุดิบ C", currentPrice: 210, change: 2.0 },
-  { id: "material-d", name: "วัตถุดิบ D", currentPrice: 60, change: 5.0 },
-  { id: "material-e", name: "วัตถุดิบ E", currentPrice: 140, change: -1.0 },
-  { id: "material-f", name: "วัตถุดิบ F", currentPrice: 80, change: 4.0 },
+  { id: "material-a", name: "วัตถุดิบ A", currentPrice: 120, change: 11.1 },
+  { id: "material-b", name: "วัตถุดิบ B", currentPrice: 95, change: -3.1 },
+  { id: "material-c", name: "วัตถุดิบ C", currentPrice: 210, change: 1.9 },
+  { id: "material-d", name: "วัตถุดิบ D", currentPrice: 60, change: 5.3 },
+  { id: "material-e", name: "วัตถุดิบ E", currentPrice: 140, change: -0.7 },
+  { id: "material-f", name: "วัตถุดิบ F", currentPrice: 80, change: 3.9 },
 ];
 
 export function Suppliers() {
