@@ -419,7 +419,7 @@ export function BusinessAnalysis() {
 
         {/* Data Source Note */}
         <p className="text-xs text-center text-muted-foreground px-4">
-          ข้อมูลดึงอัตโนมัติจากเว็บไซต์งบการเงินผ่านเลขนิติบุคคลที่ลงทะเบียน
+          *ข้อมูลงบการเงินดึงอัตโนมัติจากฐานข้อมูลกรมพัฒนาธุรกิจการค้า กระทรวงพาณิชย์*
         </p>
       </div>
     </div>
