@@ -13,6 +13,7 @@ import {
   Check,
 } from "lucide-react";
 import { GlowCard } from "../GlowCard";
+import { applyTheme, themeOptions } from "../../lib/theme-utils";
 
 interface Material {
   name: string;
@@ -20,38 +21,6 @@ interface Material {
   avgPrice: string;
   frequency: string;
 }
-
-const themeOptions = [
-  {
-    id: "pink-magenta",
-    name: "Pink & Magenta",
-    primary: "#ff3d9a",
-    secondary: "#9d4edd",
-    gradient: "from-pink-500 to-fuchsia-500",
-    default: true,
-  },
-  {
-    id: "purple-violet",
-    name: "Purple & Violet",
-    primary: "#a855f7",
-    secondary: "#7c3aed",
-    gradient: "from-purple-500 to-violet-600",
-  },
-  {
-    id: "blue-cyan",
-    name: "Blue & Cyan",
-    primary: "#3b82f6",
-    secondary: "#06b6d4",
-    gradient: "from-blue-500 to-cyan-500",
-  },
-  {
-    id: "emerald-green",
-    name: "Emerald & Green",
-    primary: "#10b981",
-    secondary: "#059669",
-    gradient: "from-emerald-500 to-green-600",
-  },
-];
 
 export function Signup() {
   const navigate = useNavigate();
@@ -102,7 +71,13 @@ export function Signup() {
       theme: selectedTheme,
     };
 
+    // Save theme and apply it immediately
     localStorage.setItem("app-theme", selectedTheme);
+    const theme = themeOptions.find((t) => t.id === selectedTheme);
+    if (theme) {
+      applyTheme(theme);
+    }
+
     sessionStorage.setItem("isLoggedIn", "true");
     sessionStorage.setItem("isFirstLogin", "true");
     sessionStorage.setItem("user", JSON.stringify(signupData));

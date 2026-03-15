@@ -45,7 +45,9 @@ export function SettingsTheme() {
 
       {isApplying && (
         <div className="bg-primary/10 border border-primary/30 rounded-lg p-3 text-center glow-pink-sm">
-          <p className="text-sm text-primary font-medium">✨ กำลังใช้งานธีม...</p>
+          <p className="text-sm text-primary font-medium">
+            ✨ กำลังใช้งานธีม...
+          </p>
         </div>
       )}
 
@@ -107,7 +109,9 @@ export function SettingsTheme() {
       </div>
 
       <div className="bg-muted/20 border border-border rounded-lg p-4 mt-8">
-        <h3 className="text-sm font-medium mb-2 flex items-center gap-2">💡 เคล็ดลับ</h3>
+        <h3 className="text-sm font-medium mb-2 flex items-center gap-2">
+          💡 เคล็ดลับ
+        </h3>
         <p className="text-sm text-muted-foreground leading-relaxed">
           สีที่คุณเลือกจะถูกใช้กับปุ่มหลัก ไฮไลท์ และเอฟเฟกต์ Glow
           ทั่วทั้งแอป การเปลี่ยนธีมจะมีผลทันที และจะถูกบันทึกไว้ใช้งานต่อไป

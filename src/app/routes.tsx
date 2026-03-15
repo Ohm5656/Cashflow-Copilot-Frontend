@@ -15,6 +15,8 @@ import { Signup } from "./components/screens/Signup";
 import { ForgotPassword } from "./components/screens/ForgotPassword";
 import { NotFound } from "./components/screens/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { ExpenseAnomalyDetail } from "./components/screens/ExpenseAnomalyDetail";
+import { ProductAnalysisDetail } from "./components/screens/ProductAnalysisDetail";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +50,8 @@ export const router = createBrowserRouter([
       { path: "settings/import", element: <SettingsImport /> },
       { path: "settings/theme", element: <SettingsTheme /> },
       { path: "*", element: <NotFound /> },
+      { path: "expense-anomaly", element: <ExpenseAnomalyDetail /> },
+      { path: "product-analysis", element: <ProductAnalysisDetail /> },
     ],
   },
 ]);

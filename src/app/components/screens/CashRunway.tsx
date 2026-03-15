@@ -10,7 +10,7 @@ export function CashRunway() {
       </div>
 
       {/* Main Runway Display */}
-      <GlowCard className="bg-gradient-to-br from-primary/20 to-secondary/20 border-primary/50 glow-pink p-8 text-center">
+      <GlowCard className="bg-gradient-to-br from-primary/20 to-secondary/20 border-primary/50 glow-pink p-8 text-center" data-tour="runway-card">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary mb-4 glow-pink">
           <Wallet className="w-8 h-8 text-white" />
         </div>
@@ -70,7 +70,7 @@ export function CashRunway() {
       </GlowCard>
 
       {/* Cash Reconciliation Card */}
-      <GlowCard className="bg-gradient-to-br from-yellow-500/10 to-amber-500/10 border-yellow-500/30 p-5">
+      <GlowCard className="bg-gradient-to-br from-yellow-500/10 to-amber-500/10 border-yellow-500/30 p-5" data-tour="cash-verification">
         <div className="flex items-start gap-3">
           <div className="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center border border-yellow-500/30 flex-shrink-0">
             <AlertCircle className="w-5 h-5 text-yellow-400" />

@@ -2,18 +2,18 @@ import {
   User,
   Package,
   Upload,
-  BookOpen,
   ChevronRight,
   Building2,
   DollarSign,
   Globe,
   LogOut,
   Palette,
+  Sparkles,
 } from "lucide-react";
 import { GlowCard } from "../GlowCard";
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { UserGuideModal } from "../UserGuideModal";
+import { FeatureGuideCards } from "../FeatureGuideCards";
 import { applySavedTheme } from "../../lib/theme-utils";
 
 const settingsSections = [
@@ -55,7 +55,7 @@ const accountInfo = {
 };
 
 export function Settings() {
-  const [showGuide, setShowGuide] = useState(false);
+  const [showFeatureGuide, setShowFeatureGuide] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,6 +72,11 @@ export function Settings() {
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
+      {/* Feature Guide Cards Modal */}
+      {showFeatureGuide && (
+        <FeatureGuideCards onComplete={() => setShowFeatureGuide(false)} />
+      )}
+
       <div className="text-center">
         <h1 className="mb-2">ตั้งค่า</h1>
         <p className="text-muted-foreground">จัดการข้อมูลบริษัทและการตั้งค่าแอป</p>
@@ -102,7 +107,7 @@ export function Settings() {
         </div>
       </GlowCard>
 
-      <div className="space-y-3">
+      <div className="space-y-3" data-tour="settings-account">
         {settingsSections.map((section) => {
           const Icon = section.icon;
 
@@ -128,16 +133,16 @@ export function Settings() {
           );
         })}
 
-        <button onClick={() => setShowGuide(true)} className="w-full">
+        <button onClick={() => setShowFeatureGuide(true)} className="w-full">
           <GlowCard className="p-5 hover:glow-pink-sm transition-all cursor-pointer group">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center flex-shrink-0 glow-pink-sm group-hover:scale-110 transition-transform">
-                <BookOpen className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-fuchsia-500 flex items-center justify-center flex-shrink-0 glow-pink-sm group-hover:scale-110 transition-transform">
+                <Sparkles className="w-6 h-6 text-white" />
               </div>
 
               <div className="flex-1 text-left">
-                <h3 className="mb-1">คู่มือการใช้งาน</h3>
-                <p className="text-sm text-muted-foreground">วิธีใช้งานแอปและคำถามที่พบบ่อย</p>
+                <h3 className="mb-1">แนะนำฟีเจอร์ทั้งหมด</h3>
+                <p className="text-sm text-muted-foreground">ดูคำแนะนำและวิธีใช้งานฟีเจอร์ทุกตัว</p>
               </div>
 
               <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -147,7 +152,7 @@ export function Settings() {
       </div>
 
       <div className="text-center pt-4 pb-24">
-        <p className="text-sm text-muted-foreground mb-1">Cashflow Copilot AI</p>
+        <p className="text-sm text-muted-foreground mb-1">FlowCast</p>
         <p className="text-xs text-muted-foreground mb-3">Version 1.0.0</p>
 
         <button
@@ -158,8 +163,6 @@ export function Settings() {
           ออกจากระบบ
         </button>
       </div>
-
-      <UserGuideModal isOpen={showGuide} onClose={() => setShowGuide(false)} />
     </div>
   );
 }
