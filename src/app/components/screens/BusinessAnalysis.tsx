@@ -23,6 +23,151 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+import logoPink from "../../../assets/logo-pink.png";
+import logoPurple from "../../../assets/logo-purple.png";
+import logoBlue from "../../../assets/logo-blue.png";
+import logoGreen from "../../../assets/logo-green.png";
+import logoOrange from "../../../assets/logo-orange.png";
+import logoRed from "../../../assets/logo-red.png";
+import logoAqua from "../../../assets/logo-aqua.png";
+import logoIndigo from "../../../assets/logo-indigo.png";
+
+type ThemeId =
+  | "pink-magenta"
+  | "purple-violet"
+  | "blue-cyan"
+  | "emerald-green"
+  | "orange-amber"
+  | "rose-red"
+  | "teal-aqua"
+  | "indigo-blue";
+
+const logoMap: Record<ThemeId, string> = {
+  "pink-magenta": logoPink,
+  "purple-violet": logoPurple,
+  "blue-cyan": logoBlue,
+  "emerald-green": logoGreen,
+  "orange-amber": logoOrange,
+  "rose-red": logoRed,
+  "teal-aqua": logoAqua,
+  "indigo-blue": logoIndigo,
+};
+
+const glowMap: Record<ThemeId, string> = {
+  "pink-magenta": "drop-shadow-[0_0_10px_rgba(255,61,154,0.75)]",
+  "purple-violet": "drop-shadow-[0_0_10px_rgba(168,85,247,0.75)]",
+  "blue-cyan": "drop-shadow-[0_0_10px_rgba(59,130,246,0.75)]",
+  "emerald-green": "drop-shadow-[0_0_10px_rgba(16,185,129,0.75)]",
+  "orange-amber": "drop-shadow-[0_0_10px_rgba(251,146,60,0.75)]",
+  "rose-red": "drop-shadow-[0_0_10px_rgba(244,63,94,0.75)]",
+  "teal-aqua": "drop-shadow-[0_0_10px_rgba(20,184,166,0.75)]",
+  "indigo-blue": "drop-shadow-[0_0_10px_rgba(99,102,241,0.75)]",
+};
+
+const glowBgMap: Record<ThemeId, string> = {
+  "pink-magenta": "rgba(255,61,154,0.28)",
+  "purple-violet": "rgba(168,85,247,0.28)",
+  "blue-cyan": "rgba(59,130,246,0.28)",
+  "emerald-green": "rgba(16,185,129,0.28)",
+  "orange-amber": "rgba(251,146,60,0.28)",
+  "rose-red": "rgba(244,63,94,0.28)",
+  "teal-aqua": "rgba(20,184,166,0.28)",
+  "indigo-blue": "rgba(99,102,241,0.28)",
+};
+
+const validThemes: ThemeId[] = [
+  "pink-magenta",
+  "purple-violet",
+  "blue-cyan",
+  "emerald-green",
+  "orange-amber",
+  "rose-red",
+  "teal-aqua",
+  "indigo-blue",
+];
+
+function normalizeTheme(value: string | null | undefined): ThemeId | null {
+  if (!value) return null;
+
+  const v = value.trim().toLowerCase();
+
+  const aliasMap: Record<string, ThemeId> = {
+    "pink-magenta": "pink-magenta",
+    pink: "pink-magenta",
+    magenta: "pink-magenta",
+
+    "purple-violet": "purple-violet",
+    purple: "purple-violet",
+    violet: "purple-violet",
+
+    "blue-cyan": "blue-cyan",
+    blue: "blue-cyan",
+    cyan: "blue-cyan",
+
+    "emerald-green": "emerald-green",
+    emerald: "emerald-green",
+    green: "emerald-green",
+
+    "orange-amber": "orange-amber",
+    orange: "orange-amber",
+    amber: "orange-amber",
+
+    "rose-red": "rose-red",
+    rose: "rose-red",
+    red: "rose-red",
+
+    "teal-aqua": "teal-aqua",
+    teal: "teal-aqua",
+    aqua: "teal-aqua",
+
+    "indigo-blue": "indigo-blue",
+    indigo: "indigo-blue",
+  };
+
+  return aliasMap[v] ?? null;
+}
+
+function getCurrentTheme(): ThemeId {
+  const html = document.documentElement;
+
+  const candidates = [
+    localStorage.getItem("theme"),
+    localStorage.getItem("selectedTheme"),
+    localStorage.getItem("app-theme"),
+    html.dataset.theme,
+    html.getAttribute("data-theme"),
+    html.dataset.colorTheme,
+    html.getAttribute("data-color-theme"),
+  ];
+
+  for (const value of candidates) {
+    const normalized = normalizeTheme(value);
+    if (normalized) return normalized;
+  }
+
+  const classText = html.className || "";
+  for (const theme of validThemes) {
+    if (classText.includes(theme)) return theme;
+  }
+
+  if (classText.includes("pink")) return "pink-magenta";
+  if (classText.includes("purple") || classText.includes("violet"))
+    return "purple-violet";
+  if (classText.includes("blue") || classText.includes("cyan"))
+    return "blue-cyan";
+  if (classText.includes("emerald") || classText.includes("green"))
+    return "emerald-green";
+  if (classText.includes("orange") || classText.includes("amber"))
+    return "orange-amber";
+  if (classText.includes("rose") || classText.includes("red"))
+    return "rose-red";
+  if (classText.includes("teal") || classText.includes("aqua"))
+    return "teal-aqua";
+  if (classText.includes("indigo")) return "indigo-blue";
+
+  return "pink-magenta";
+}
+
 // Circular Risk Score Component
 function RiskScoreCircle({ score }: { score: number }) {
   const radius = 70;
@@ -88,6 +233,7 @@ export function BusinessAnalysis() {
   const navigate = useNavigate();
   const riskScore = 68;
   const [showGuide, setShowGuide] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState<ThemeId>(getCurrentTheme());
 
   useEffect(() => {
     const isFirstLogin = sessionStorage.getItem("isFirstLogin");
@@ -96,9 +242,39 @@ export function BusinessAnalysis() {
     }
   }, []);
 
+  useEffect(() => {
+    const syncTheme = () => {
+      const nextTheme = getCurrentTheme();
+      setCurrentTheme((prev) => (prev === nextTheme ? prev : nextTheme));
+    };
+
+    syncTheme();
+
+    window.addEventListener("storage", syncTheme);
+    window.addEventListener("focus", syncTheme);
+
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class", "data-theme", "data-color-theme"],
+    });
+
+    const interval = window.setInterval(syncTheme, 300);
+
+    return () => {
+      window.removeEventListener("storage", syncTheme);
+      window.removeEventListener("focus", syncTheme);
+      observer.disconnect();
+      window.clearInterval(interval);
+    };
+  }, []);
+
+  const currentLogo = logoMap[currentTheme];
+  const currentGlow = glowMap[currentTheme];
+  const currentGlowBg = glowBgMap[currentTheme];
+
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      {/* Feature Guide */}
       {showGuide && (
         <FeatureGuideCards
           onComplete={() => {
@@ -108,15 +284,29 @@ export function BusinessAnalysis() {
         />
       )}
 
-      {/* App Title */}
       <div className="text-center mb-4">
-        <h1 className="text-2xl mb-2 text-glow-pink">FlowCast</h1>
+        <div className="flex items-center justify-center gap-3 mb-2">
+          <div className="relative flex items-center justify-center">
+            <div
+              className="absolute inset-0 rounded-full blur-xl opacity-70 scale-[1.6] transition-all duration-500"
+              style={{ background: currentGlowBg }}
+            />
+            <img
+              key={currentTheme}
+              src={currentLogo}
+              alt="FlowCast Logo"
+              className={`relative w-9 h-9 object-contain transition-all duration-500 ${currentGlow}`}
+            />
+          </div>
+
+          <h1 className="text-2xl font-semibold text-glow-pink">FlowCast</h1>
+        </div>
+
         <p className="text-sm text-muted-foreground">
           AI CFO Assistant สำหรับธุรกิจของคุณ
         </p>
       </div>
 
-      {/* SECTION 1 — AI Risk Score Card - Centered */}
       <GlowCard
         data-tour="risk-score"
         className="bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20 glow-pink-sm p-8"
@@ -138,7 +328,6 @@ export function BusinessAnalysis() {
         </div>
       </GlowCard>
 
-      {/* Quick Actions */}
       <div className="grid grid-cols-3 gap-3">
         <button
           onClick={() => navigate("/cash-runway")}
@@ -174,11 +363,9 @@ export function BusinessAnalysis() {
         </button>
       </div>
 
-      {/* SECTION 2 — ข้อมูลเชิงลึก */}
       <div className="space-y-3" data-tour="material-cards">
         <h1 className="text-center mb-4">ข้อมูลเชิงลึก</h1>
 
-        {/* Card 1 — สุขภาพทางการเงิน */}
         <button
           onClick={() => navigate("/cash-runway")}
           className="w-full text-left"
@@ -200,7 +387,6 @@ export function BusinessAnalysis() {
           </GlowCard>
         </button>
 
-        {/* Card 2 — ค่าใช้จ่ายผิดปกติ */}
         <button
           onClick={() => navigate("/expense-anomaly")}
           className="w-full text-left"
@@ -222,7 +408,6 @@ export function BusinessAnalysis() {
           </GlowCard>
         </button>
 
-        {/* Card 3 — วิเคราะห์สินค้า */}
         <button
           onClick={() => navigate("/product-analysis")}
           className="w-full text-left"
@@ -258,11 +443,9 @@ export function BusinessAnalysis() {
         </button>
       </div>
 
-      {/* SECTION 3 — กำไรย้อนหลัง */}
       <div className="space-y-4">
         <h1 className="text-center">กำไรย้อนหลัง</h1>
 
-        {/* Summary Stats */}
         <div className="grid grid-cols-3 gap-2">
           <GlowCard className="p-3 text-center bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/20">
             <p className="text-xs text-muted-foreground mb-1">กำไรสุทธิ 2024</p>
@@ -407,7 +590,6 @@ export function BusinessAnalysis() {
           </ResponsiveContainer>
         </GlowCard>
 
-        {/* Insights */}
         <GlowCard className="p-4 bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20">
           <p className="text-sm leading-relaxed text-muted-foreground">
             <span className="text-primary">💡 AI Insight:</span>{" "}
@@ -417,9 +599,9 @@ export function BusinessAnalysis() {
           </p>
         </GlowCard>
 
-        {/* Data Source Note */}
         <p className="text-xs text-center text-muted-foreground px-4">
-          *ข้อมูลงบการเงินดึงอัตโนมัติจากฐานข้อมูลกรมพัฒนาธุรกิจการค้า กระทรวงพาณิชย์*
+          *ข้อมูลงบการเงินดึงอัตโนมัติจากฐานข้อมูลกรมพัฒนาธุรกิจการค้า
+          กระทรวงพาณิชย์*
         </p>
       </div>
     </div>

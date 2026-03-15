@@ -136,7 +136,7 @@ export function SettingsImport() {
       {/* Info Card */}
       <GlowCard className="p-5 bg-primary/5 border-primary/30">
         <p className="text-sm text-muted-foreground">
-          💡 <strong>หมายเหตุ:</strong> ข้อมูลที่อัปโหลดจะถูกเข้ารหัสและเก็บอย่างปลอดภัย
+          <strong>หมายเหตุ:</strong> ข้อมูลที่อัปโหลดจะถูกเข้ารหัสและเก็บอย่างปลอดภัย
           ระบบจะใช้ข้อมูลเพื่อวิเคราะห์และคาดการณ์กระแสเงินสดให้แม่นยำยิ่งขึ้น
         </p>
       </GlowCard>
